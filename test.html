@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>首次访问弹出框示例</title>
+    <style>
+        /* 弹出框样式 */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+        
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        }
+        
+        .modal-header {
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 15px;
+        }
+        
+        .modal-header h2 {
+            margin: 0;
+            color: #333;
+        }
+        
+        .modal-body {
+            padding: 10px 0;
+            margin-bottom: 15px;
+        }
+        
+        .modal-footer {
+            text-align: right;
+        }
+        
+        .modal-button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 14px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        
+        .modal-button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>网站内容</h1>
+    <p>这里是网站的主要内容...</p>
+
+    <!-- 弹出框结构 -->
+    <div id="welcomeModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">欢迎访问</h2>
+            </div>
+            <div class="modal-body">
+                <p id="modalContent">感谢您首次访问我们的网站！</p>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-button" onclick="closeWelcomeModal()">确定</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 页面加载时检查是否是第一次访问
+        window.onload = function() {
+            // 检查localStorage中是否有标记
+            if (!localStorage.getItem('hasSeenWelcomeModal')) {
+                // 如果没有标记，显示欢迎弹窗
+                document.getElementById('welcomeModal').style.display = 'block';
+                // 设置标记，表示用户已经看到过弹窗
+                localStorage.setItem('hasSeenWelcomeModal', 'true');
+            }
+        };
+        
+        // 关闭欢迎弹窗
+        function closeWelcomeModal() {
+            document.getElementById('welcomeModal').style.display = 'none';
+        }
+        
+        // 点击模态框外部关闭
+        window.onclick = function(event) {
+            const modal = document.getElementById('welcomeModal');
+            if (event.target == modal) {
+                closeWelcomeModal();
+            }
+        }
+    </script>
+
+    <!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>链接点击弹出框示例</title>
+    <style>
+        /* 弹出框样式 */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+        
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        }
+        
+        .modal-header {
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 15px;
+        }
+        
+        .modal-header h2 {
+            margin: 0;
+            color: #333;
+        }
+        
+        .modal-body {
+            padding: 10px 0;
+            margin-bottom: 15px;
+        }
+        
+        .modal-footer {
+            text-align: right;
+        }
+        
+        .modal-button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 14px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        
+        .modal-button:hover {
+            background-color: #45a049;
+        }
+        
+        /* 链接样式 */
+        .special-link {
+            color: blue;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>网站内容</h1>
+    <p>这是一个包含特殊链接的页面：</p>
+    
+    <!-- 特殊链接 -->
+    <a id="specialLink" class="special-link">点击这里查看重要信息</a>
+    
+    <p>其他普通内容...</p>
+
+    <!-- 弹出框结构 -->
+    <div id="linkClickModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>重要提示</h2>
+            </div>
+            <div class="modal-body">
+                <p>这是您第一次点击此链接看到的特别信息！</p>
+                <p>后续点击将不再显示此提示，除非清除浏览器数据。</p>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-button" onclick="closeModal()">我知道了</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 获取DOM元素
+        const specialLink = document.getElementById('specialLink');
+        const modal = document.getElementById('linkClickModal');
+        
+        // 链接点击事件处理
+        specialLink.addEventListener('click', function(e) {
+            e.preventDefault(); // 阻止默认链接行为
+            
+            // 检查是否已经点击过
+            if (!localStorage.getItem('hasClickedSpecialLink')) {
+                // 如果是第一次点击，显示模态框
+                modal.style.display = 'block';
+                // 设置标记
+                localStorage.setItem('hasClickedSpecialLink', 'true');
+            } else {
+                // 如果不是第一次点击，执行正常链接操作
+                alert("这是普通链接行为（已看过提示）");
+                // 这里可以替换为你实际的链接跳转逻辑
+                // window.location.href = "your-link.html";
+            }
+        });
+        
+        // 关闭模态框
+        function closeModal() {
+            modal.style.display = 'none';
+        }
+        
+        // 点击模态框外部关闭
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+    </script>
+
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>考研11408按钮首次点击提示</title>
+    <style>
+        /* 弹出框样式 - 与浙江专升本保持一致但使用不同主题色 */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        
+        .modal-content {
+            background-color: #f8f9fa;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .modal-header {
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 15px;
+        }
+        
+        .modal-header h3 {
+            margin: 0;
+            color: #2c3e50;
+            font-size: 1.3em;
+        }
+        
+        .modal-body {
+            padding: 15px 0;
+            margin-bottom: 20px;
+            color: #34495e;
+            line-height: 1.6;
+        }
+        
+        .modal-footer {
+            text-align: right;
+        }
+        
+        .confirm-btn {
+            background-color: #e74c3c; /* 使用红色系区别于专升本的蓝色 */
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+        
+        .confirm-btn:hover {
+            background-color: #c0392b;
+        }
+        
+        /* 考研11408按钮样式 */
+        #Yan_11408 {
+            background-color: #e74c3c; /* 与确认按钮同色系 */
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        #Yan_11408:hover {
+            background-color: #c0392b;
+        }
+    </style>
+</head>
+<body>
+    <!-- 考研11408按钮 -->
+    <button id="Yan_11408" data-filter=".cat2">考研11408</button>
+    
+    <!-- 弹出框结构 -->
+    <div id="yanFirstClickModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>考研11408专属提示</h3>
+            </div>
+            <div class="modal-body">
+                <p>您正在访问考研11408(计算机考研)专属内容区域！</p>
+                <p>包含数据结构、计算机组成原理、操作系统和计算机网络四大科目资源。</p>
+                <p>首次点击后，系统会记住您的选择，下次将直接进入内容页面。</p>
+            </div>
+            <div class="modal-footer">
+                <button class="confirm-btn" id="yanConfirmBtn">确认</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const yanBtn = document.getElementById('Yan_11408');
+            const modal = document.getElementById('yanFirstClickModal');
+            const confirmBtn = document.getElementById('yanConfirmBtn');
+            
+            // 检查是否已经点击过(使用不同的localStorage键名)
+            const hasClicked = localStorage.getItem('yan11408BtnClicked');
+            
+            // 按钮点击事件
+            yanBtn.addEventListener('click', function(e) {
+                if (!hasClicked) {
+                    // 如果是第一次点击，显示模态框
+                    e.preventDefault(); // 阻止默认行为
+                    modal.style.display = 'block';
+                } else {
+                    // 如果不是第一次点击，执行正常操作
+                    console.log("执行考研11408的过滤操作...");
+                    // 这里添加你原来的按钮点击逻辑
+                    // 例如：filterItems('.cat2');
+                }
+            });
+            
+            // 确认按钮点击事件
+            confirmBtn.addEventListener('click', function() {
+                // 设置已点击标记(使用不同的键名)
+                localStorage.setItem('yan11408BtnClicked', 'true');
+                // 关闭模态框
+                modal.style.display = 'none';
+                // 执行按钮的原始功能
+                console.log("执行考研11408的过滤操作...");
+                // 这里添加你原来的按钮点击逻辑
+                // 例如：filterItems('.cat2');
+            });
+            
+            // 点击模态框外部关闭
+            window.addEventListener('click', function(event) {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+</body>
+</html>
+</body>
+</html>

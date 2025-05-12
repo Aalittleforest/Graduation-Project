@@ -1,0 +1,1189 @@
+﻿<!doctype html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>课程列表</title>
+    <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.png">
+
+    <!-- 引入 CSS 文件 -->
+    <link rel="stylesheet" href="static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="static/css/fontawesome.css">
+    <link rel="stylesheet" href="static/css/themify-icons.css">
+    <link rel="stylesheet" href="static/css/animate.min.css">
+    <link rel="stylesheet" href="static/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="static/css/magnific-popup.css">
+    <link rel="stylesheet" href="static/css/metismenu.css">
+    <link rel="stylesheet" href="static/css/nice-select.css">
+    <link rel="stylesheet" href="static/css/jquery-ui.css">
+    <link rel="stylesheet" href="static/css/common.css">
+    <link rel="stylesheet" href="static/css/style.css">
+    <link rel="stylesheet" href="static/css/responsive.css">
+    <style>
+        /* 弹出框样式 */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+        
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        }
+        
+        .modal-header {
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 15px;
+        }
+        
+        .modal-header h2 {
+            margin: 0;
+            color: #333;
+        }
+        
+        .modal-body {
+            padding: 10px 0;
+            margin-bottom: 15px;
+        }
+        
+        .modal-footer {
+            text-align: right;
+        }
+        
+        .modal-button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 14px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        
+        .modal-button:hover {
+            background-color: #45a049;
+        }
+
+        /* 弹出框样式 - 与浙江专升本保持一致但使用不同主题色 */
+        /* 弹出框样式 - 添加滚动支持 */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        
+        .modal-content {
+            background-color: #f8f9fa;
+            margin: 10% auto; /* 上边距减小给滚动留空间 */
+            padding: 20px;
+            border: 1px solid #ddd;
+            width: 80%;
+            max-width: 500px;
+            max-height: 70vh; /* 限制最大高度 */
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .modal-header {
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 15px;
+            flex-shrink: 0; /* 防止标题被压缩 */
+        }
+        
+        .modal-header h3 {
+            margin: 0;
+            color: #2c3e50;
+            font-size: 1.3em;
+        }
+        
+        .modal-body {
+            padding: 0 5px 15px 0; /* 右侧留出滚动条空间 */
+            margin-bottom: 15px;
+            color: #34495e;
+            line-height: 1.6;
+            overflow-y: auto; /* 添加垂直滚动 */
+            flex-grow: 1; /* 填充剩余空间 */
+            max-height: 50vh; /* 内容区域最大高度 */
+        }
+        
+        /* 自定义滚动条样式 */
+        .modal-body::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .modal-body::-webkit-scrollbar-thumb {
+            background-color: #bdc3c7;
+            border-radius: 4px;
+        }
+        
+        .modal-body::-webkit-scrollbar-track {
+            background-color: #ecf0f1;
+            border-radius: 4px;
+        }
+        
+        .modal-footer {
+            text-align: right;
+            flex-shrink: 0; /* 防止底部被压缩 */
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+        }
+        
+        .confirm-btn {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+        
+        .confirm-btn:hover {
+            background-color: #c0392b;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="firstClickModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>致专升本的你：</h3>
+            </div>
+            <div class="modal-body">
+                <p>
+                    奋斗的路上，每一页笔记都是未来的铺垫，每一次熬夜都是梦想的加持。
+                    <br>
+                    专升本不是终点，而是你跨越自我的新起点。
+                    <br>
+                    或许此刻疲惫，但请相信，今天的付出终会照亮明天的路。
+                    <br>
+                    坚持到底的人，从来不会被辜负。愿你笔锋所至，难题皆破。考场之上，自信从容。
+                    <br>
+                    加油，本科大门已为你敞开，全力以赴，未来可期！
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button class="confirm-btn" id="confirmBtn">一起，加油！</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="yanFirstClickModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>致考研的你：</h3>
+            </div>
+            <div class="modal-body">
+                <p>
+                    考研，即中国研究生全国统一考试，每年一次，一次只能报考一所学校的一个专业，有调剂，所有有本科文凭的人都可参加，可以跨专业报考，难度大，录取率低，分为初试和复试。
+                    <br>
+                    初试考察四个科目，即101思想政治理论（全专业统一，除哲学专业）、201英语（一）（考研英语最难，部分专业统一）、202英语（二）（相较于英语（一）简单，部分专业统一）、301数学（一）（考研数学最难，部分专业统一）、302数学（二）（相较于数学（一）简单，部分专业统一）、303数学（三）（相较于数学（二）简单，部分专业统一）、专业课（每个专业难度，代码号不相同，具体查看 中国研究生招生信息网 （https://yz.chsi.com.cn/）） （其中外语、两门专业课可自选，具体参考你所报考的学校的专业）
+                    <br>
+                    复试主要包括：自我介绍，英语笔试和面试，专业课笔试和面试，综合素质面试等。（具体查看你报考的学校的专业的大纲和标准）
+                    <br>
+                    通用考试大纲：
+	                <br>
+                    &nbsp;&nbsp;政治：《马克思主义基本原理》，简称马原、《毛泽东思想和中国特色社会主义概论》，简称毛概、《中国近现代史纲要》，简称史纲、《思想道德修养与法律基础》，简称思修、《习近平新时代中国特色社会主义思想概论》，简称新思想。
+                    <br>
+                    部分考试大纲：
+	                <br>
+                    &nbsp;&nbsp;数学（一）：《高等数学》，简称高数、《线性代数》，简称线代、《概率论与数理统计》，简称概率。
+	                <br>
+                    计算机：《计算机组成原理》，简称计组，《数据结构》、《计算机网络》，简称网络、《操作系统》
+                    <br>
+                    由于本人研究生希望报考计算机类专业，故资料中只包含计算机（11408）考研所相关的视频以及笔记资料等内容，如你报考其他专业，请移步 中国研究生招生信息网（https://yz.chsi.com.cn/）查看自己做报考的学校的专业所考的具体科目（例如：浙江大学-计算机科学与技术学院-计算机科学与技术-一、101思想政治理论；二、201英语（一）；三、301数学（一）；四、408计算机学科专业基础），且同时到自己想去的学校的官网查询自己想报名的专业的具体考试科目、考试大纲、考试（初试、复试）时间、初试及复试录取分数线等资料。
+                    <br>
+                    致奋斗的你：
+                    <br>
+	                考研，是一座非常高且陡峭的雪山，稍有不慎便会从山上跌落，甚至粉身碎骨。
+                    <br>
+                    但你若畏惧，则终身不可逾越，既然陡峭就更要努力拼搏，管它什么风吹雨打，什么寒窗苦读。
+                    <br>
+                    你只需要记住，抛开一切，去做你想做的事，不论成功与否，你都会为此骄傲。
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button class="confirm-btn" id="yanConfirmBtn">考研必胜！</button>
+            </div>
+        </div>
+    </div>
+    
+    <div id="zzFirstClickModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>关于政治</h3>
+            </div>
+            <div class="modal-body">
+                <p>
+                    由于政治内容(尤其考研政治)大多关于书本，没有过多扩展。
+                    <br>
+                    故本网站所推荐的视频等内容并不完整(尤其考研政治)，因此推荐几个政治教学不错的老师：
+                    <br>
+                    &nbsp;&nbsp;腿姐(陆寓丰)、徐涛、肖秀荣
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button class="confirm-btn" id="zzConfirmBtn">确定</button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const zsbBtn = document.getElementById('ZSB');
+            const modal = document.getElementById('firstClickModal');
+            const confirmBtn = document.getElementById('confirmBtn');
+            
+            // 检查是否已经点击过
+            const hasClicked = localStorage.getItem('zsbBtnClicked');
+            
+            // 按钮点击事件
+            zsbBtn.addEventListener('click', function(e) {
+                if (!hasClicked) {
+                    // 如果是第一次点击，显示模态框
+                    e.preventDefault(); // 阻止默认行为
+                    modal.style.display = 'block';
+                }
+            });
+            
+            // 确认按钮点击事件
+            confirmBtn.addEventListener('click', function() {
+                // 设置已点击标记
+                localStorage.setItem('zsbBtnClicked', 'true');
+                // 关闭模态框
+                modal.style.display = 'none';
+                // 执行按钮的原始功能
+            });
+            
+            // 点击模态框外部关闭
+            window.addEventListener('click', function(event) {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+        });
+
+        // 11408
+        document.addEventListener('DOMContentLoaded', function() {
+            const yanBtn = document.getElementById('Yan_11408');
+            const modal = document.getElementById('yanFirstClickModal');
+            const confirmBtn = document.getElementById('yanConfirmBtn');
+            
+            // 检查是否已经点击过(使用不同的localStorage键名)
+            const hasClicked = localStorage.getItem('yan11408BtnClicked');
+            
+            // 按钮点击事件
+            yanBtn.addEventListener('click', function(e) {
+                if (!hasClicked) {
+                    // 如果是第一次点击，显示模态框
+                    e.preventDefault(); // 阻止默认行为
+                    modal.style.display = 'block';
+                } else {
+                    // 如果不是第一次点击，执行正常操作
+                    console.log("执行考研11408的过滤操作...");
+                }
+            });
+            
+            // 确认按钮点击事件
+            confirmBtn.addEventListener('click', function() {
+                // 设置已点击标记(使用不同的键名)
+                localStorage.setItem('yan11408BtnClicked', 'true');
+                // 关闭模态框
+                modal.style.display = 'none';
+                // 执行按钮的原始功能
+                console.log("执行考研11408的过滤操作...");
+            });
+            
+            // 点击模态框外部关闭
+            window.addEventListener('click', function(event) {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+        });
+        //政治
+        document.addEventListener('DOMContentLoaded', function() {
+            const zzBtn = document.getElementById('ZZ');
+            const modal = document.getElementById('zzFirstClickModal');
+            const confirmBtn = document.getElementById('zzConfirmBtn');
+            
+            // 检查是否已经点击过(使用独立键名)
+            const hasClicked = localStorage.getItem('zzBtnClicked');
+            
+            // 按钮点击事件
+            zzBtn.addEventListener('click', function(e) {
+                if (!hasClicked) {
+                    e.preventDefault();
+                    modal.style.display = 'block';
+                } else {
+                    console.log("执行按钮的默认操作...");
+                }
+            });
+            
+            // 确认按钮点击事件
+            confirmBtn.addEventListener('click', function() {
+                localStorage.setItem('zzBtnClicked', 'true');
+                modal.style.display = 'none';
+                console.log("执行按钮的默认操作...");
+            });
+            
+            // 点击模态框外部关闭
+            window.addEventListener('click', function(event) {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+        });
+
+        //每三十天再次弹出
+        // 通用时间格式化函数
+        function formatDate(timestamp) {
+            const date = new Date(timestamp);
+            return `${date.getFullYear()}年${date.getMonth()+1}月${date.getDate()}日`;
+        }
+
+        // 检查是否需要显示弹窗
+        function shouldShowModal(buttonId) {
+            const lastSeen = localStorage.getItem(`${buttonId}LastSeen`);
+            if (!lastSeen) return true; // 从未看过
+            
+            const now = Date.now();
+            const thirtyDays = 30 * 24 * 60 * 60 * 1000;
+            return (now - parseInt(lastSeen)) > thirtyDays;
+        }
+
+        // 初始化所有按钮
+        document.addEventListener('DOMContentLoaded', function() {
+            // 为每个按钮设置点击事件
+            ['ZZ', 'Yan_11408', 'ZSB'].forEach(buttonId => {
+                const btn = document.getElementById(buttonId);
+                const modal = document.getElementById(`${buttonId.toLowerCase()}Modal`);
+                const lastSeenSpan = document.getElementById(`${buttonId.toLowerCase()}LastSeen`);
+                
+                btn.addEventListener('click', function() {
+                    if (shouldShowModal(buttonId)) {
+                        // 显示上次查看时间
+                        const lastSeen = localStorage.getItem(`${buttonId}LastSeen`);
+                        lastSeenSpan.textContent = lastSeen ? formatDate(lastSeen) : "从未";
+                        
+                        // 显示弹窗
+                        modal.style.display = 'block';
+                        
+                        // 更新查看时间
+                        localStorage.setItem(`${buttonId}LastSeen`, Date.now());
+                    } else {
+                        // 执行正常操作
+                        console.log(`执行${buttonId}按钮的默认操作...`);
+                        // filterItems(btn.dataset.filter);
+                    }
+                });
+            });
+
+            // 通用确认按钮处理
+            document.querySelectorAll('.confirm-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const modalId = this.getAttribute('data-modal');
+                    document.getElementById(modalId).style.display = 'none';
+                });
+            });
+
+            // 点击外部关闭
+            window.addEventListener('click', function(e) {
+                if (e.target.classList.contains('modal')) {
+                    e.target.style.display = 'none';
+                }
+            });
+        });
+    </script>
+    
+
+    <!-- 页面主体开始 -->
+    <div class="body_wrap">
+
+        <!-- 返回顶部按钮 - 开始 -->
+        <div id="thetop"></div>
+        <div id="backtotop">
+            <a href="#" id="scroll">
+                <i class="fal fa-arrow-up"></i>
+                <i class="fal fa-arrow-up"></i>
+            </a>
+        </div>
+        <!-- 返回顶部按钮 - 结束 -->
+
+        <!-- 预加载器开始 -->
+        <div class="preloder_part">
+            <div class="spinner">
+                <div class="dot1"></div>
+                <div class="dot2"></div>
+            </div>
+        </div>
+        <!-- 预加载器结束 -->
+
+        <!-- 头部开始 -->
+        <header class="header_area">
+            <div id="sticky-header" class="header_bottom white_bg pl-130 pr-130">
+                <div class="container-fluid">
+                    <div class="row align-items-center">
+                        <div class="col-xl-2 col-lg-2 col-6">
+                            <div class="logo">
+                                <a href="index.html"><img src="static/picture/AaLittleForest.png" alt="" style="width:70%; height: 70%;"></a>
+                            </div>
+                        </div>
+                        <div class="col-xl-7 col-lg-8 d-none d-lg-block">
+                            <nav class="main_menu">
+                                <ul>
+                                    <li><a href="index.html">首页</a></li> 
+                                    <li class="has_dropdown active">
+                                        <a href="#">课程</a>
+                                        <ul class="submenu">
+                                            <li class="active"><a href="courses.html">课程列表</a></li>
+                                        </ul>
+                                    </li>
+									<li><a href="about.html">关于网站</a></li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!-- 头部结束 -->
+
+        <!-- 移除侧边栏相关代码 -->
+
+        <main>
+            <!-- 页面标题开始 -->
+            <section class="page_title_area" data-overlay="6" data-background="static/images/page_title_bg.jpg">
+                <div class="containe">
+                    <div class="row">
+                        <div class="col-l2">
+                            <div class="page_title text-center">
+                                <h2>我们的课程</h2>
+                                <nav aria-label="面包屑导航">
+                                    <ol class="breadcrumb justify-content-center">
+                                        <li class="breadcrumb-item">
+                                            <a href="index.html">首页</a>
+                                        </li>
+                                        <li class="breadcrumb-item active" aria-current="page">课程列表</li>
+                                    </ol>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- 页面标题结束 -->
+
+            <!-- 课程列表开始 -->
+            <section class="courses_area pt-120 pb-120">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="masonry_active mb-40">
+                                <button class="active" data-filter="*">所有类别</button>
+                                <button id="ZSB" data-filter=".cat1">浙江专升本(数学英语)</button>
+                                <button id="Yan_11408" data-filter=".cat2">考研11408</button>
+                                <button data-filter=".cat3">数学</button>
+                                <button data-filter=".cat4">英语</button>
+                                <button id="ZZ" data-filter=".cat5">政治</button>
+                                <button data-filter=".cat6">计算机专业</button>
+                                <button data-filter=".cat7">物理</button>
+                                <button data-filter=".cat8">生物</button>
+                                <button data-filter=".cat9">化学</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row grid">
+                        <div class="col-lg-4 col-md-6 col-sm-6 grid-item mb-30 cat1 cat2 cat3">
+                            <div class="course_single mb-30">
+                                <div class="c_thumb">
+                                    <a target="_blank" href="Song_Advanced Mathematics.html"><img src="static/images/Song_Advanced Mathematics.JPG" alt="" style="width: 340px; height: 223px; object-fit: contain;"></a>
+                                </div>
+                                <div class="course_content">
+                                    <div class="c_head">
+                                        <span class="cat">专升本、考研、数学</span>
+                                    </div>
+                                    <h3 class="title"><a target="_blank" href="Song_Advanced Mathematics.html">【B站】宋浩:高等数学</a></h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-6 grid-item mb-30 cat2 cat3">
+                            <div class="course_single mb-30">
+                                <div class="c_thumb">
+                                    <a target="_blank" href="Song_Linear algebra.html"><img src="static/images/Song_Linear algebra.JPG" alt="" style="width: 340px; height: 223px; object-fit: contain;"></a>
+                                </div>
+                                <div class="course_content">
+                                    <div class="c_head">
+                                        <span class="cat">考研、数学</span>
+                                    </div>
+                                    <h3 class="title"><a target="_blank" href="Song_Linear algebra.html">【B站】宋浩:线性代数</a></h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-6 grid-item mb-30 cat2 cat3">
+                            <div class="course_single mb-30">
+                                <div class="c_thumb">
+                                    <a target="_blank" href="Song_Probability Theory and Mathematical Statistics.html"><img src="static/images/Song_Probability Theory and Mathematical Statistics.JPG" alt="" style="width: 340px; height: 223px; object-fit: contain;"></a>
+                                </div>
+                                <div class="course_content">
+                                    <div class="c_head">
+                                        <span class="cat">考研、数学</span>
+                                    </div>
+                                    <h3 class="title"><a target="_blank" href="Song_Probability Theory and Mathematical Statistics.html">【B站】宋浩:概率论与数理统计</a></h3>
+                                </div>
+                            </div>
+                        </div>
+						<div class="col-lg-4 col-md-6 col-sm-6 grid-item mb-30 cat1 cat2 cat3">
+                            <div class="course_single mb-30">
+                                <div class="c_thumb">
+                                    <a target="_blank" href="Yi_Advanced Mathematics.html"><img src="static/images/Yi_Advanced Mathematics2.JPG" alt="" style="width: 340px; height: 223px; object-fit: contain;"></a>
+                                </div>
+                                <div class="course_content">
+                                    <div class="c_head">
+                                        <span class="cat">专升本、考研、数学</span>
+                                    </div>
+                                    <h3 class="title"><a target="_blank" href="Yi_Advanced Mathematics.html">【B站】一高数:高等数学</a></h3>
+                                </div>
+                            </div>
+                        </div>
+						<div class="col-lg-4 col-md-6 col-sm-6 grid-item mb-30 cat2 cat3">
+                            <div class="course_single mb-30">
+                                <div class="c_thumb">
+                                    <a target="_blank" href="Yi_Linear algebra.html"><img src="static/images/Yi_Linear algebra.JPG" alt="" style="width: 340px; height: 223px; object-fit: contain;"></a>
+                                </div>
+                                <div class="course_content">
+                                    <div class="c_head">
+                                        <span class="cat">考研、数学</span>
+                                    </div>
+                                    <h3 class="title"><a target="_blank" href="Yi_Linear algebra.html">【B站】一高数:线性代数</a></h3>
+                                </div>
+                            </div>
+                        </div>
+						<div class="col-lg-4 col-md-6 col-sm-6 grid-item mb-30 cat2 cat3">
+                            <div class="course_single mb-30">
+                                <div class="c_thumb">
+                                    <a target="_blank" href="Yi_Probability Theory and Mathematical Statistics.html"><img src="static/images/Yi_Probability Theory and Mathematical Statistics.JPG" alt="" style="width: 340px; height: 223px; object-fit: contain;"></a>
+                                </div>
+                                <div class="course_content">
+                                    <div class="c_head">
+                                        <span class="cat">考研、数学</span>
+                                    </div>
+                                    <h3 class="title"><a target="_blank" href="Yi_Probability Theory and Mathematical Statistics.html">【B站】一高数:概率论</a></h3>
+                                </div>
+                            </div>
+                        </div>
+						<div class="col-lg-4 col-md-6 col-sm-6 grid-item mb-30 cat2 cat3">
+                            <div class="course_single mb-30">
+                                <div class="c_thumb">
+                                    <a target="_blank" href="Tang_101.html"><img src="static/images/Tang_101.JPG" alt="" style="width: 340px; height: 223px; object-fit: contain;"></a>
+                                </div>
+                                <div class="course_content">
+                                    <div class="c_head">
+                                        <span class="cat">考研、数学</span>
+                                    </div>
+                                    <h3 class="title"><a target="_blank" href="Tang_101.html">【B站】汤家凤:历年真题讲解</a></h3>
+                                </div>
+                            </div>
+                        </div>
+						<div class="col-lg-4 col-md-6 col-sm-6 grid-item mb-30 cat3 cat4">
+                            <div class="course_single mb-30">
+                                <div class="c_thumb">
+                                    <a target="_blank" href="MIT_Calculus.html"><img src="static/images/MIT_Calculus.JPG" alt="" style="width: 340px; height: 223px; object-fit: contain;"></a>
+                                </div>
+                                <div class="course_content">
+                                    <div class="c_head">
+                                        <span class="cat">数学、英语</span>
+                                    </div>
+                                    <h3 class="title"><a target="_blank" href="MIT_Calculus.html">【B站】麻省理工:微积分</a></h3>
+                                </div>
+                            </div>
+                        </div>
+						<div class="col-lg-4 col-md-6 col-sm-6 grid-item mb-30 cat3 cat4">
+                            <div class="course_single mb-30">
+                                <div class="c_thumb">
+                                    <a target="_blank" href="MIT_Linear algebra.html"><img src="static/images/MIT_Linear algebra.JPG" alt="" style="width: 340px; height: 223px; object-fit: contain;"></a>
+                                </div>
+                                <div class="course_content">
+                                    <div class="c_head">
+                                        <span class="cat">数学、英语</span>
+                                    </div>
+                                    <h3 class="title"><a target="_blank" href="MIT_Linear algebra.html">【B站】麻省理工:线性代数</a></h3>
+                                </div>
+                            </div>
+                        </div>
+						<div class="col-lg-4 col-md-6 col-sm-6 grid-item mb-30 cat2 cat3 cat6">
+                            <div class="course_single mb-30">
+                                <div class="c_thumb">
+                                    <a target="_blank" href="Northeastern University_Discrete mathematics.html"><img src="static/images/Northeastern University_Discrete mathematics.JPG" alt="" style="width: 340px; height: 223px; object-fit: contain;"></a>
+                                </div>
+                                <div class="course_content">
+                                    <div class="c_head">
+                                        <span class="cat">考研、计算机、数学</span>
+                                    </div>
+                                    <h3 class="title"><a target="_blank" href="Northeastern University_Discrete mathematics.html">【B站】东北大学:离散数学</a></h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-6 grid-item mb-30 cat1 cat3">
+                            <div class="course_single mb-30">
+                                <div class="c_thumb">
+                                    <a target="_blank" href="Song_Calculus.html"><img src="static/images/Song_Calculus.JPG" alt="" style="width: 340px; height: 223px; object-fit: contain;"></a>
+                                </div>
+                                <div class="course_content">
+                                    <div class="c_head">
+                                        <span class="cat">专升本、数学</span>
+                                    </div>
+                                    <h3 class="title"><a target="_blank" href="Song_Calculus.html">【B站】宋浩老师:微积分</a></h3>
+                                </div>
+                            </div>
+                        </div>
+						<div class="col-lg-4 col-md-6 col-sm-6 grid-item mb-30 cat2 cat5">
+                            <div class="course_single mb-30">
+                                <div class="c_thumb">
+                                    <a target="_blank" href="Xu_Intensive Notes on the Basic Principles of Marxism.html"><img src="static/images/Xu_Intensive Notes on the Basic Principles of Marxism.JPG" alt="" style="width: 340px; height: 223px; object-fit: contain;"></a>
+                                </div>
+                                <div class="course_content">
+                                    <div class="c_head">
+                                        <span class="cat">考研、政治</span>
+                                    </div>
+                                    <h3 class="title"><a target="_blank" href="Xu_Intensive Notes on the Basic Principles of Marxism.html">【B站】徐涛:马原强化笔记</a></h3>
+                                </div>
+                            </div>
+                        </div>
+						<div class="col-lg-4 col-md-6 col-sm-6 grid-item mb-30 cat2 cat5">
+                            <div class="course_single mb-30">
+                                <div class="c_thumb">
+                                    <a target="_blank" href="Xu_A review of the Basic Principles of Marxism.html"><img src="static/images/Xu_A review of the Basic Principles of Marxism.JPG" alt="" style="width: 340px; height: 223px; object-fit: contain;"></a>
+                                </div>
+                                <div class="course_content">
+                                    <div class="c_head">
+                                        <span class="cat">考研、政治</span>
+                                    </div>
+                                    <h3 class="title"><a target="_blank" href="Xu_A review of the Basic Principles of Marxism.html">【B站】徐涛:马原串讲</a></h3>
+                                </div>
+                            </div>
+                        </div>
+						<div class="col-lg-4 col-md-6 col-sm-6 grid-item mb-30 cat2 cat5">
+                            <div class="course_single mb-30">
+                                <div class="c_thumb">
+                                    <a target="_blank" href="Xu_Recitation of the basic principles of Marxism.html"><img src="static/images/Xu_Recitation of the basic principles of Marxism.JPG" alt="" style="width: 340px; height: 223px; object-fit: contain;"></a>
+                                </div>
+                                <div class="course_content">
+                                    <div class="c_head">
+                                        <span class="cat">考研、政治</span>
+                                    </div>
+                                    <h3 class="title"><a target="_blank" href="Xu_Recitation of the basic principles of Marxism.html">【B站】徐涛:马原带背</a></h3>
+                                </div>
+                            </div>
+                        </div>
+						<div class="col-lg-4 col-md-6 col-sm-6 grid-item mb-30 cat2 cat5">
+                            <div class="course_single mb-30">
+                                <div class="c_thumb">
+                                    <a target="_blank" href="Lu_Political recitation.html"><img src="static/images/Lu_Political recitation.JPG" alt="" style="width: 340px; height: 223px; object-fit: contain;"></a>
+                                </div>
+                                <div class="course_content">
+                                    <div class="c_head">
+                                        <span class="cat">考研、政治</span>
+                                    </div>
+                                    <h3 class="title"><a target="_blank" href="Lu_Political recitation.html">【B站】腿姐:政治带背</a></h3>
+                                </div>
+                            </div>
+                        </div>
+						<div class="col-lg-4 col-md-6 col-sm-6 grid-item mb-30 cat2 cat5">
+                            <div class="course_single mb-30">
+                                <div class="c_thumb">
+                                    <a target="_blank" href="Zao_An Outline of MAO Zedong Thought and the Theoretical System of Socialism with Chinese Characteristics.html"><img src="static/images/Zao_An Outline of MAO Zedong Thought and the Theoretical System of Socialism with Chinese Characteristics.JPG" alt="" style="width: 340px; height: 223px; object-fit: contain;"></a>
+                                </div>
+                                <div class="course_content">
+                                    <div class="c_head">
+                                        <span class="cat">考研、政治</span>
+                                    </div>
+                                    <h3 class="title"><a target="_blank" href="Zao_An Outline of MAO Zedong Thought and the Theoretical System of Socialism with Chinese Characteristics.html">【B站】来一份晚报:毛概带背</a></h3>
+                                </div>
+                            </div>
+                        </div>
+						<div class="col-lg-4 col-md-6 col-sm-6 grid-item mb-30 cat2 cat5">
+                            <div class="course_single mb-30">
+                                <div class="c_thumb">
+                                    <a target="_blank" href="Zao_Ideology Morality and the Rule of Law.html"><img src="static/images/Zao_Ideology Morality and the Rule of Law.JPG" alt="" style="width: 340px; height: 223px; object-fit: contain;"></a>
+                                </div>
+                                <div class="course_content">
+                                    <div class="c_head">
+                                        <span class="cat">考研、政治</span>
+                                    </div>
+                                    <h3 class="title"><a target="_blank" href="Zao_Ideology Morality and the Rule of Law.html">【B站】来一份晚报:思修</a></h3>
+                                </div>
+                            </div>
+                        </div>
+						<div class="col-lg-4 col-md-6 col-sm-6 grid-item mb-30 cat2 cat5">
+                            <div class="course_single mb-30">
+                                <div class="c_thumb">
+                                    <a target="_blank" href="Yang_Outline of Modern Chinese History.html"><img src="static/images/Yang_Outline of Modern Chinese History.JPG" alt="" style="width: 340px; height: 223px; object-fit: contain;"></a>
+                                </div>
+                                <div class="course_content">
+                                    <div class="c_head">
+                                        <span class="cat">考研、政治</span>
+                                    </div>
+                                    <h3 class="title"><a target="_blank" href="Yang_Outline of Modern Chinese History.html">【B站】杨加宁:史纲精讲</a></h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-6 grid-item mb-30 cat1 cat3">
+                            <div class="course_single mb-30">
+                                <div class="c_thumb">
+                                    <a target="_blank" href="Jie_Junior college to Bachelor's degree Mathematics.html"><img src="static/images/Jie_Junior college to Bachelor's degree Mathematics.JPG" alt="" style="width: 340px; height: 223px; object-fit: contain;"></a>
+                                </div>
+                                <div class="course_content">
+                                    <div class="c_head">
+                                        <span class="cat">专升本、数学</span>
+                                    </div>
+                                    <h3 class="title"><a target="_blank" href="Jie_Junior college to Bachelor's degree Mathematics.html">【B站】杰哥:专升本数学</a></h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-6 grid-item mb-30 cat1 cat2 cat4">
+                            <div class="course_single mb-30">
+                                <div class="c_thumb">
+                                    <a target="_blank" href="Tu_A Complete Explanation of Grammar.html"><img src="static/images/Tu_A Complete Explanation of Grammar.JPG" alt="" style="width: 340px; height: 223px; object-fit: contain;"></a>
+                                </div>
+                                <div class="course_content">
+                                    <div class="c_head">
+                                        <span class="cat">专升本、考研、英语</span>
+                                    </div>
+                                    <h3 class="title"><a target="_blank" href="Tu_A Complete Explanation of Grammar.html">【B站】英语兔:语法全解</a></h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-6 grid-item mb-30 cat4">
+                            <div class="course_single mb-30">
+                                <div class="c_thumb">
+                                    <a target="_blank" href="Zhi_Cet-4 and CET-6.html"><img src="static/images/Zhi_Cet-4 and CET-6.JPG" alt="" style="width: 340px; height: 223px; object-fit: contain;"></a>
+                                </div>
+                                <div class="course_content">
+                                    <div class="c_head">
+                                        <span class="cat">英语(四六级)</span>
+                                    </div>
+                                    <h3 class="title"><a target="_blank" href="Zhi_Cet-4 and CET-6.html">【B站】知了:英语四六级</a></h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-6 grid-item mb-30 cat4">
+                            <div class="course_single mb-30">
+                                <div class="c_thumb">
+                                    <a target="_blank" href="Dui_Cet-4 and CET-6.html"><img src="static/images/Dui_Cet-4 and CET-6.JPG" alt="" style="width: 340px; height: 223px; object-fit: contain;"></a>
+                                </div>
+                                <div class="course_content">
+                                    <div class="c_head">
+                                        <span class="cat">英语(四六级)</span>
+                                    </div>
+                                    <h3 class="title"><a target="_blank" href="Dui_Cet-4 and CET-6.html">【B站】对啊网:英语四六级</a></h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-6 grid-item mb-30 cat1 cat4">
+                            <div class="course_single mb-30">
+                                <div class="c_thumb">
+                                    <a target="_blank" href="Zhi_Junior College to Bachelor's Degree English.html"><img src="static/images/Zhi_Junior College to Bachelor's Degree English.JPG" alt="" style="width: 340px; height: 223px; object-fit: contain;"></a>
+                                </div>
+                                <div class="course_content">
+                                    <div class="c_head">
+                                        <span class="cat">专升本、英语</span>
+                                    </div>
+                                    <h3 class="title"><a target="_blank" href="Zhi_Junior College to Bachelor's Degree English.html">【B站】知了:专升本英语</a></h3>
+                                </div>
+                            </div>
+                        </div>
+						<div class="col-lg-4 col-md-6 col-sm-6 grid-item mb-30 cat2 cat6">
+                            <div class="course_single mb-30">
+                                <div class="c_thumb">
+                                    <a target="_blank" href="Wang_Principles of Computer Organization.html"><img src="static/images/Wang_Principles of Computer Organization.JPG" alt="" style="width: 340px; height: 223px; object-fit: contain;"></a>
+                                </div>
+                                <div class="course_content">
+                                    <div class="c_head">
+                                        <span class="cat">考研、计算机</span>
+                                    </div>
+                                    <h3 class="title"><a target="_blank" href="Wang_Principles of Computer Organization.html">【B站】王道:计算机组成原理</a></h3>
+                                </div>
+                            </div>
+                        </div>
+						<div class="col-lg-4 col-md-6 col-sm-6 grid-item mb-30 cat2 cat6">
+                            <div class="course_single mb-30">
+                                <div class="c_thumb">
+                                    <a target="_blank" href="Wang_Data structure.html"><img src="static/images/Wang_Data structure.JPG" alt="" style="width: 340px; height: 223px; object-fit: contain;"></a>
+                                </div>
+                                <div class="course_content">
+                                    <div class="c_head">
+                                        <span class="cat">考研、计算机</span>
+                                    </div>
+                                    <h3 class="title"><a target="_blank" href="Wang_Data structure.html">【B站】王道:数据结构</a></h3>
+                                </div>
+                            </div>
+                        </div>
+						<div class="col-lg-4 col-md-6 col-sm-6 grid-item mb-30 cat2 cat6">
+                            <div class="course_single mb-30">
+                                <div class="c_thumb">
+                                    <a target="_blank" href="Wang_Computer network.html"><img src="static/images/Wang_Computer network.JPG" alt="" style="width: 340px; height: 223px; object-fit: contain;"></a>
+                                </div>
+                                <div class="course_content">
+                                    <div class="c_head">
+                                        <span class="cat">考研、计算机</span>
+                                    </div>
+                                    <h3 class="title"><a target="_blank" href="Wang_Computer network.html">【B站】王道:计算机网络</a></h3>
+                                </div>
+                            </div>
+                        </div>
+						<div class="col-lg-4 col-md-6 col-sm-6 grid-item mb-30 cat2 cat6">
+                            <div class="course_single mb-30">
+                                <div class="c_thumb">
+                                    <a target="_blank" href="Wang_Operating system.html"><img src="static/images/Wang_Operating system.JPG" alt="" style="width: 340px; height: 223px; object-fit: contain;"></a>
+                                </div>
+                                <div class="course_content">
+                                    <div class="c_head">
+                                        <span class="cat">考研、计算机</span>
+                                    </div>
+                                    <h3 class="title"><a target="_blank" href="Wang_Operating system.html">【B站】王道:操作系统</a></h3>
+                                </div>
+                            </div>
+                        </div>
+						<div class="col-lg-4 col-md-6 col-sm-6 grid-item mb-30 cat6">
+                            <div class="course_single mb-30">
+                                <div class="c_thumb">
+                                    <a target="_blank" href="Shang_51 Single-chip Microcomputer.html"><img src="static/images/Shang_51 Single-chip Microcomputer.JPG" alt="" style="width: 340px; height: 223px; object-fit: contain;"></a>
+                                </div>
+                                <div class="course_content">
+                                    <div class="c_head">
+                                        <span class="cat">计算机(嵌入式)</span>
+                                    </div>
+                                    <h3 class="title"><a target="_blank" href="Shang_51 Single-chip Microcomputer.html">【B站】尚硅谷:51单片机</a></h3>
+                                </div>
+                            </div>
+                        </div>
+						<div class="col-lg-4 col-md-6 col-sm-6 grid-item mb-30 cat6">
+                            <div class="course_single mb-30">
+                                <div class="c_thumb">
+                                    <a target="_blank" href="Shang_STM32 single-chip microcomputer.html"><img src="static/images/Shang_STM32 single-chip microcomputer.JPG" alt="" style="width: 340px; height: 223px; object-fit: contain;"></a>
+                                </div>
+                                <div class="course_content">
+                                    <div class="c_head">
+                                        <span class="cat">计算机(嵌入式)</span>
+                                    </div>
+                                    <h3 class="title"><a target="_blank" href="Shang_STM32 single-chip microcomputer.html">【B站】尚硅谷:STM32单片机</a></h3>
+                                </div>
+                            </div>
+                        </div>
+						<div class="col-lg-4 col-md-6 col-sm-6 grid-item mb-30 cat6">
+                            <div class="course_single mb-30">
+                                <div class="c_thumb">
+                                    <a target="_blank" href="Hei_Analog circuit.html"><img src="static/images/Hei_Analog circuit.JPG" alt="" style="width: 340px; height: 223px; object-fit: contain;"></a>
+                                </div>
+                                <div class="course_content">
+                                    <div class="c_head">
+                                        <span class="cat">计算机(嵌入式)</span>
+                                    </div>
+                                    <h3 class="title"><a target="_blank" href="Hei_Analog circuit.html">【B站】黑马:模拟电路</a></h3>
+                                </div>
+                            </div>
+                        </div>
+						<div class="col-lg-4 col-md-6 col-sm-6 grid-item mb-30 cat6">
+                            <div class="course_single mb-30">
+                                <div class="c_thumb">
+                                    <a target="_blank" href="Hei_ARM single-chip microcomputer.html"><img src="static/images/Hei_ARM single-chip microcomputer.JPG" alt="" style="width: 340px; height: 223px; object-fit: contain;"></a>
+                                </div>
+                                <div class="course_content">
+                                    <div class="c_head">
+                                        <span class="cat">计算机(嵌入式)</span>
+                                    </div>
+                                    <h3 class="title"><a target="_blank" href="Hei_ARM single-chip microcomputer.html">【B站】黑马:ARM单片机</a></h3>
+                                </div>
+                            </div>
+                        </div>
+						<div class="col-lg-4 col-md-6 col-sm-6 grid-item mb-30 cat6">
+                            <div class="course_single mb-30">
+                                <div class="c_thumb">
+                                    <a target="_blank" href="Hei_A Comprehensive Guide to Single-Chip Microcomputers.html"><img src="static/images/Hei_A Comprehensive Guide to Single-Chip Microcomputers.JPG" alt="" style="width: 340px; height: 223px; object-fit: contain;"></a>
+                                </div>
+                                <div class="course_content">
+                                    <div class="c_head">
+                                        <span class="cat">计算机(嵌入式)</span>
+                                    </div>
+                                    <h3 class="title"><a target="_blank" href="Hei_A Comprehensive Guide to Single-Chip Microcomputers.html">【B站】黑马:单片机一课通</a></h3>
+                                </div>
+                            </div>
+                        </div>
+						<div class="col-lg-4 col-md-6 col-sm-6 grid-item mb-30 cat2 cat6">
+                            <div class="course_single mb-30">
+                                <div class="c_thumb">
+                                    <a target="_blank" href="Hei_C language.html"><img src="static/images/Hei_C language.JPG" alt="" style="width: 340px; height: 223px; object-fit: contain;"></a>
+                                </div>
+                                <div class="course_content">
+                                    <div class="c_head">
+                                        <span class="cat">考研、计算机</span>
+                                    </div>
+                                    <h3 class="title"><a target="_blank" href="Hei_C language.html">【B站】黑马:C语言</a></h3>
+                                </div>
+                            </div>
+                        </div>
+						<div class="col-lg-4 col-md-6 col-sm-6 grid-item mb-30 cat2 cat6">
+                            <div class="course_single mb-30">
+                                <div class="c_thumb">
+                                    <a target="_blank" href="Peng_C language.html"><img src="static/images/Peng_C language.JPG" alt="" style="width: 340px; height: 223px; object-fit: contain;"></a>
+                                </div>
+                                <div class="course_content">
+                                    <div class="c_head">
+                                        <span class="cat">考研、计算机</span>
+                                    </div>
+                                    <h3 class="title"><a target="_blank" href="Peng_C language.html">【B站】鹏哥:C语言</a></h3>
+                                </div>
+                            </div>
+                        </div>
+						<div class="col-lg-4 col-md-6 col-sm-6 grid-item mb-30 cat6">
+                            <div class="course_single mb-30">
+                                <div class="c_thumb">
+                                    <a target="_blank" href="Hei_C++ language.html"><img src="static/images/Hei_C++ language.JPG" alt="" style="width: 340px; height: 223px; object-fit: contain;"></a>
+                                </div>
+                                <div class="course_content">
+                                    <div class="c_head">
+                                        <span class="cat">计算机(C++)</span>
+                                    </div>
+                                    <h3 class="title"><a target="_blank" href="Hei_C++ language.html">【B站】黑马:C++</a></h3>
+                                </div>
+                            </div>
+                        </div>
+						<div class="col-lg-4 col-md-6 col-sm-6 grid-item mb-30 cat6">
+                            <div class="course_single mb-30">
+                                <div class="c_thumb">
+                                    <a target="_blank" href="Hei_Java language.html"><img src="static/images/Hei_Java language.JPG" alt="" style="width: 340px; height: 223px; object-fit: contain;"></a>
+                                </div>
+                                <div class="course_content">
+                                    <div class="c_head">
+                                        <span class="cat">计算机(Java)</span>
+                                    </div>
+                                    <h3 class="title"><a target="_blank" href="Hei_Java language.html">【B站】黑马:Java</a></h3>
+                                </div>
+                            </div>
+                        </div>
+						<div class="col-lg-4 col-md-6 col-sm-6 grid-item mb-30 cat6">
+                            <div class="course_single mb-30">
+                                <div class="c_thumb">
+                                    <a target="_blank" href="Hei_Linux System.html"><img src="static/images/Hei_Linux System.JPG" alt="" style="width: 340px; height: 223px; object-fit: contain;"></a>
+                                </div>
+                                <div class="course_content">
+                                    <div class="c_head">
+                                        <span class="cat">计算机(Linux)</span>
+                                    </div>
+                                    <h3 class="title"><a target="_blank" href="Hei_Linux System.html">【B站】黑马:Linux</a></h3>
+                                </div>
+                            </div>
+                        </div>
+						<div class="col-lg-4 col-md-6 col-sm-6 grid-item mb-30 cat6">
+                            <div class="course_single mb-30">
+                                <div class="c_thumb">
+                                    <a target="_blank" href="Hei_Python language.html"><img src="static/images/Hei_Python language.JPG" alt="" style="width: 340px; height: 223px; object-fit: contain;"></a>
+                                </div>
+                                <div class="course_content">
+                                    <div class="c_head">
+                                        <span class="cat">计算机(Python)</span>
+                                    </div>
+                                    <h3 class="title"><a target="_blank" href="Hei_Python language.html">【B站】黑马:Python</a></h3>
+                                </div>
+                            </div>
+                        </div>
+						<div class="col-lg-4 col-md-6 col-sm-6 grid-item mb-30 cat6">
+                            <div class="course_single mb-30">
+                                <div class="c_thumb">
+                                    <a target="_blank" href="Hei_Office Computer Level 2.html"><img src="static/images/Hei_Office Computer Level 2.JPG" alt="" style="width: 340px; height: 223px; object-fit: contain;"></a>
+                                </div>
+                                <div class="course_content">
+                                    <div class="c_head">
+                                        <span class="cat">计算机(计算机二级)</span>
+                                    </div>
+                                    <h3 class="title"><a target="_blank" href="Hei_Office Computer Level 2.html">【B站】黑马:计算机二级</a></h3>
+                                </div>
+                            </div>
+                        </div>
+						<div class="col-lg-4 col-md-6 col-sm-6 grid-item mb-30 cat6">
+                            <div class="course_single mb-30">
+                                <div class="c_thumb">
+                                    <a target="_blank" href="Hei_HTML5+Css3+JavaScript+JQuery+Echart.html"><img src="static/images/Hei_HTML5+Css3+JavaScript+JQuery+Echart.JPG" alt="" style="width: 340px; height: 223px; object-fit: contain;"></a>
+                                </div>
+                                <div class="course_content">
+                                    <div class="c_head">
+                                        <span class="cat">计算机(H5)</span>
+                                    </div>
+                                    <h3 class="title"><a target="_blank" href="Hei_HTML5+Css3+JavaScript+JQuery+Echart.html">【B站】黑马:H5+C3+Js+jQ</a></h3>
+                                </div>
+                            </div>
+                        </div>
+						<div class="col-lg-4 col-md-6 col-sm-6 grid-item mb-30 cat6">
+                            <div class="course_single mb-30">
+                                <div class="c_thumb">
+                                    <a target="_blank" href="Hei_PHP language.html"><img src="static/images/Hei_PHP language.JPG" alt="" style="width: 340px; height: 223px; object-fit: contain;"></a>
+                                </div>
+                                <div class="course_content">
+                                    <div class="c_head">
+                                        <span class="cat">计算机(PHP)</span>
+                                    </div>
+                                    <h3 class="title"><a target="_blank" href="Hei_PHP language.html">【B站】黑马:PHP</a></h3>
+                                </div>
+                            </div>
+                        </div>
+						<div class="col-lg-4 col-md-6 col-sm-6 grid-item mb-30 cat6">
+                            <div class="course_single mb-30">
+                                <div class="c_thumb">
+                                    <a target="_blank" href="Genji_Pr.html"><img src="static/images/Genji_Pr.JPG" alt="" style="width: 340px; height: 223px; object-fit: contain;"></a>
+                                </div>
+                                <div class="course_content">
+                                    <div class="c_head">
+                                        <span class="cat">计算机(Pr)</span>
+                                    </div>
+                                    <h3 class="title"><a target="_blank" href="Genji_Pr.html">【B站】Genji:Pr</a></h3>
+                                </div>
+                            </div>
+                        </div>
+						<div class="col-lg-4 col-md-6 col-sm-6 grid-item mb-30 cat6">
+                            <div class="course_single mb-30">
+                                <div class="c_thumb">
+                                    <a target="_blank" href="Hei_Json language.html"><img src="static/images/Hei_Json language.JPG" alt="" style="width: 340px; height: 223px; object-fit: contain;"></a>
+                                </div>
+                                <div class="course_content">
+                                    <div class="c_head">
+                                        <span class="cat">计算机(Json)</span>
+                                    </div>
+                                    <h3 class="title"><a target="_blank" href="Hei_Json language.html">【B站】黑马:Json</a></h3>
+                                </div>
+                            </div>
+                        </div>
+						<div class="col-lg-4 col-md-6 col-sm-6 grid-item mb-30 cat6">
+                            <div class="course_single mb-30">
+                                <div class="c_thumb">
+                                    <a target="_blank" href="Jiao_Vb language.html"><img src="static/images/Jiao_Vb language.JPG" alt="" style="width: 340px; height: 223px; object-fit: contain;"></a>
+                                </div>
+                                <div class="course_content">
+                                    <div class="c_head">
+                                        <span class="cat">计算机(Vb)</span>
+                                    </div>
+                                    <h3 class="title"><a target="_blank" href="Jiao_Vb language.html">【B站】教达优:Vb</a></h3>
+                                </div>
+                            </div>
+                        </div>
+						<div class="col-lg-4 col-md-6 col-sm-6 grid-item mb-30 cat6">
+                            <div class="course_single mb-30">
+                                <div class="c_thumb">
+                                    <a target="_blank" href="yangzhicai_CS.html"><img src="static/images/yangzhicai_CS.JPG" alt="" style="width: 340px; height: 223px; object-fit: contain;"></a>
+                                </div>
+                                <div class="course_content">
+                                    <div class="c_head">
+                                        <span class="cat">计算机(C#)</span>
+                                    </div>
+                                    <h3 class="title"><a target="_blank" href="yangzhicai_CS.html">【B站】yangzhicai:C#</a></h3>
+                                </div>
+                            </div>
+                        </div>
+						<div class="col-lg-4 col-md-6 col-sm-6 grid-item mb-30 cat8">
+                            <div class="course_single mb-30">
+                                <div class="c_thumb">
+                                    <a target="_blank" href="Yi_High School Biology.html"><img src="static/images/Yi_High School Biology.JPG" alt="" style="width: 340px; height: 223px; object-fit: contain;"></a>
+                                </div>
+                                <div class="course_content">
+                                    <div class="c_head">
+                                        <span class="cat">生物</span>
+                                    </div>
+                                    <h3 class="title"><a target="_blank" href="Yi_High School Biology.html">【B站】一生儿:高中生物</a></h3>
+                                </div>
+                            </div>
+                        </div>
+						<div class="col-lg-4 col-md-6 col-sm-6 grid-item mb-30 cat7">
+                            <div class="course_single mb-30">
+                                <div class="c_thumb">
+                                    <a target="_blank" href="Huang_High School Physics.html"><img src="static/images/Huang_High School Physics.JPG" alt="" style="width: 340px; height: 223px; object-fit: contain;"></a>
+                                </div>
+                                <div class="course_content">
+                                    <div class="c_head">
+                                        <span class="cat">物理</span>
+                                    </div>
+                                    <h3 class="title"><a target="_blank" href="Huang_High School Physics.html">【B站】HuangFuRen:高中物理</a></h3>
+                                </div>
+                            </div>
+                        </div>
+						<div class="col-lg-4 col-md-6 col-sm-6 grid-item mb-30 cat7">
+                            <div class="course_single mb-30">
+                                <div class="c_thumb">
+                                    <a target="_blank" href="Northeastern University_College Physics.html"><img src="static/images/Northeastern University_College Physics.JPG" alt="" style="width: 340px; height: 223px; object-fit: contain;"></a>
+                                </div>
+                                <div class="course_content">
+                                    <div class="c_head">
+                                        <span class="cat">物理</span>
+                                    </div>
+                                    <h3 class="title"><a target="_blank" href="Northeastern University_College Physics.html">【B站】东北大学:大学物理</a></h3>
+                                </div>
+                            </div>
+                        </div>
+						<div class="col-lg-4 col-md-6 col-sm-6 grid-item mb-30 cat9">
+                            <div class="course_single mb-30">
+                                <div class="c_thumb">
+                                    <a target="_blank" href="Yi_High School Chemistry.html"><img src="static/images/Yi_High School Chemistry.JPG" alt="" style="width: 340px; height: 223px; object-fit: contain;"></a>
+                                </div>
+                                <div class="course_content">
+                                    <div class="c_head">
+                                        <span class="cat">化学</span>
+                                    </div>
+                                    <h3 class="title"><a target="_blank" href="Yi_High School Chemistry.html">【B站】一化儿:高中化学</a></h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- 课程列表结束 -->
+    <!-- 页面主体结束 -->
+
+    <!-- 引入 jQuery 及相关脚本 -->
+    <script src="static/js/jquery-3.5.1.min.js"></script>
+    <script src="static/js/bootstrap.bundle.min.js"></script>
+    <script src="static/js/owl.carousel.min.js"></script>
+    <script src="static/js/metismenu.min.js"></script>
+    <script src="static/js/wow.min.js"></script>
+    <script src="static/js/jquery.nice-select.min.js"></script>
+    <script src="static/js/jquery-ui.js"></script>
+    <script src="static/js/isotope.pkgd.min.js"></script>
+    <script src="static/js/imagesloaded.pkgd.min.js"></script>
+    <script src="static/js/jquery.magnific-popup.min.js"></script>
+    <script src="static/js/main.js"></script>
+</body>
+
+</html>
